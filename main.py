@@ -26,6 +26,8 @@ def send_telegram_picks():
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     payload = {"chat_id": chat_id, "text": message, "parse_mode": "Markdown"}
     requests.post(url, data=payload)
+    
+    
     send_telegram_picks()
 
 

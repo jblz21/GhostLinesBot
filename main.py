@@ -11,7 +11,7 @@ def status():
     return "GhostLinesBot - Automation Engine Running", 200
 
 # --- Configurable Settings ---
-BOT_TOKEN = "7583773430:AAFOUPZc35aH4WoBug6MSeUtJ3fnd0XVYn4"
+BOT_TOKEN = "7583773430:AAFFs_1n19-eGcm6jSVPbWQod_ohPxGxh2Q"
 CHAT_ID = "134815223"
 EDGE_THRESHOLD = 8.0  # %
 SCAN_INTERVAL_MINUTES = 15
@@ -50,3 +50,4 @@ def run_scheduler():
 
 # Background scheduler thread
 Thread(target=run_scheduler, daemon=True).start()
+

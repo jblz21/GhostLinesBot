@@ -1,31 +1,56 @@
 
+from flask import Flask
 import requests
+import schedule
+import time
+from threading import Thread
 
 app = Flask(__name__)
 
 @app.route('/status')
 def status():
-    return "GhostLinesBot Final Core Running - Picks, Tracking, Alerts Active", 200
+    return "GhostLinesBot - Automation Engine Running", 200
 
-def send_telegram_picks():
-    bot_token = "7583773430:AAFOUPZc35aH4WoBug6MSeUtJ3fnd0XVYn4"
-    chat_id = "134815223"
-    message = """🔥 GhostLinesBot Picks – Sunday, March 30 🔥
+# --- Configurable Settings ---
+BOT_TOKEN = "7583773430:AAFOUPZc35aH4WoBug6MSeUtJ3fnd0XVYn4"
+CHAT_ID = "134815223"
+EDGE_THRESHOLD = 8.0  # %
+SCAN_INTERVAL_MINUTES = 15
+MORNING_DIGEST_ENABLED = True
+FILTER_PICKS_BEFORE_GAME_HOURS = 2
+# ------------------------------
 
-- [NBA] Tyrese Haliburton – OVER 17.5 Points – High (91%)
-- [NBA] Anthony Davis – UNDER 9.5 Rebounds – Strong (88%)
-- [MLB] Shohei Ohtani – OVER 1.5 Total Bases – Moderate (83%)
-- [MLB] Spencer Strider – OVER 8.5 Strikeouts – High (90%)
-- [Tennis] Carlos Alcaraz – OVER 22.5 Total Games – Solid (85%)
-
-✅ Lock in early. Wagers in motion."""
-
-    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-    payload = {"chat_id": chat_id, "text": message, "parse_mode": "Markdown"}
+def send_telegram_message(text):
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    payload = {"chat_id": CHAT_ID, "text": text, "parse_mode": "Markdown"}
     requests.post(url, data=payload)
 
-# Fire Telegram message on deploy
-send_telegram_picks()
+def scan_and_send_picks():
+    now = time.strftime("%Y-%m-%d %I:%M %p")
+    # Placeholder AI picks (to be replaced by real scraping/model logic)
+    picks = [
+        "- [NBA] Justin Edwards – OVER 15.5 Points – 54% edge",
+        "- [MLB] Austin Riley – OVER 1.5 Total Bases – 53% edge",
+        "- [Tennis] Djokovic – UNDER 21.5 Total Games – 60% edge",
+        "- [UFC] Moreno – OVER 85.5 Sig. Strikes – 57% edge"
+    ]
+    message = f"🔥 *GhostLinesBot Live Picks ({now} PST)* 🔥
+
+" + "
+".join(picks)
+    send_telegram_message(message)
+
+def run_scheduler():
+    schedule.every(SCAN_INTERVAL_MINUTES).minutes.do(scan_and_send_picks)
+    if MORNING_DIGEST_ENABLED:
+        schedule.every().day.at("07:00").do(scan_and_send_picks)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+# Background scheduler thread
+Thread(target=run_scheduler, daemon=True).start()
 
 
 

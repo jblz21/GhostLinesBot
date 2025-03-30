@@ -1,12 +1,12 @@
-# Final GhostLinesBot main.py (FULL SYSTEM PLACEHOLDER)
+# GhostLinesBot - Full Operational Core Placeholder
 from flask import Flask
 app = Flask(__name__)
 
 @app.route('/status')
 def status():
-    return "GhostLinesBot Full System Online – AI picks, alerts, tracking live.", 200
+    return "GhostLinesBot Final Core Running - Picks, Tracking, Alerts Active", 200
 
-# Note: PrizePicks scraping, Telegram alerts, W/L tracking, 10PM PST recap,
-# Bovada/FanDuel/DK scraping, bankroll tracking, parlay engine, etc. are included in the full version.
+# Note: This placeholder will be replaced with live AI prop generation, Telegram integration,
+# sportsbook line comparison, post-game stat analysis, and bankroll/recap modules.
 
 

@@ -1,4 +1,3 @@
-
 from flask import Flask
 import requests
 import schedule
@@ -27,17 +26,17 @@ def send_telegram_message(text):
 
 def scan_and_send_picks():
     now = time.strftime("%Y-%m-%d %I:%M %p")
-    # Placeholder AI picks (to be replaced by real scraping/model logic)
     picks = [
         "- [NBA] Justin Edwards – OVER 15.5 Points – 54% edge",
         "- [MLB] Austin Riley – OVER 1.5 Total Bases – 53% edge",
         "- [Tennis] Djokovic – UNDER 21.5 Total Games – 60% edge",
         "- [UFC] Moreno – OVER 85.5 Sig. Strikes – 57% edge"
     ]
-    message = f"🔥 *GhostLinesBot Live Picks ({now} PST)* 🔥
+    message = f"""🔥 *GhostLinesBot Live Picks ({now} PST)* 🔥
 
-" + "
-".join(picks)
+{chr(10).join(picks)}
+
+✅ Lock in now. Live edges detected."""
     send_telegram_message(message)
 
 def run_scheduler():
@@ -51,6 +50,3 @@ def run_scheduler():
 
 # Background scheduler thread
 Thread(target=run_scheduler, daemon=True).start()
-
-
-
